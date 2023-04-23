@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "wildrepo"
+version = "0.1.0"
+description = "Wildcard-based GitHub repository finder"
+authors = ["Jon Palmisciano <jp@jonpalmisc.com>"]
+
+[tool.poetry.scripts]
+wildrepo = "wildrepo.cli:main"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pygithub = "^1.58.1"
+docopt = "^0.6.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
