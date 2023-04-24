@@ -4,11 +4,13 @@
 wildrepo -- Wildcard-based GitHub repository finder
 
 Usage:
-    wildrepo [-t <token>] [<pattern> ...]
+  wildrepo [-h] [-t=<token>] [<pattern>...]
 
 Options:
-    -t, --token TOKEN      Personal access token to use
-    -h, --help             Show help and usage information
+  -t, --token=<token>    Personal access token to use
+  -h, --help             Show help and usage information
+
+A token may also be passed via the `WILDREPO_TOKEN` environment variable.
 """
 
 from docopt import docopt
@@ -29,7 +31,7 @@ def main():
     token = args["--token"] or os.environ.get("WILDREPO_TOKEN")
     if token is None:
         eprint(
-            "Error: Missing authentication token, set `WILDREPO_TOKEN` or pass `-t <token>`",
+            "Error: Missing authentication token, see `wildrepo -h` for help.",
         )
         sys.exit(1)
 

@@ -69,7 +69,7 @@ class Client:
 
         if (repos := self.get_entity_repos(pattern.entity)) is None:
             eprint(
-                f"Error: Failed to get repos for `{pattern.entity}` while expanding pattern `{str(pattern)}`",
+                f"Failed to get repos for entity while expanding pattern `{str(pattern)}`.",
             )
             return []
 
