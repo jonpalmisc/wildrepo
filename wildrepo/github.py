@@ -14,14 +14,22 @@ class Pattern:
 
     entity: str
     query: str
+    negative: bool
 
     def __init__(self, raw: str) -> None:
         parts = raw.split("/")
+
         self.entity = parts[0]
         self.query = parts[1]
 
+        if self.entity[0] == "!":
+            self.entity = self.entity[1:]
+            self.negative = True
+        else:
+            self.negative = False
+
     def __repr__(self) -> str:
-        return f"<Pattern '{str(self)}'>"
+        return f"<Pattern {'!' if self.negative else ''} '{str(self)}'>"
 
     def __str__(self) -> str:
         return f"{self.entity}/{self.query}"
@@ -62,7 +70,9 @@ class Client:
         except:
             return None
 
-    def expand_pattern(self, pattern: Pattern) -> List[Repository]:
+    def expand_pattern(
+        self, pattern: Pattern, ignore_patterns: List[Pattern] = []
+    ) -> List[Repository]:
         """
         Get all of the repositories matched by this pattern.
         """
@@ -79,8 +89,18 @@ class Client:
         repos += self.get_auth_user_repos()
         repos = set(repos)
 
-        return [
+        matched_repos = [
             r
             for r in repos
             if (fnmatch(r.name, pattern.query) and r.owner.login == pattern.entity)
         ]
+
+        # Exclude repos matching any of the ignore patterns.
+        for ip in ignore_patterns:
+            matched_repos = [
+                r
+                for r in matched_repos
+                if not (fnmatch(r.name, ip.query) and r.owner.login == ip.entity)
+            ]
+
+        return matched_repos

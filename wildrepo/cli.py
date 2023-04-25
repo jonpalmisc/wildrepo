@@ -40,8 +40,10 @@ def main():
     # Expand all patterns and collect a list of repositories.
     repos = []
     patterns = [Pattern(rp) for rp in args["<pattern>"]]
-    for p in patterns:
-        repos += client.expand_pattern(p)
+    ignore_patterns = [q for q in patterns if q.negative == True]
+    match_patterns = [q for q in patterns if q.negative == False]
+    for p in match_patterns:
+        repos += client.expand_pattern(p, ignore_patterns)
 
     for r in repos:
         print(r.ssh_url)

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wildrepo"
-version = "0.1.0"
+version = "0.2.0"
 description = "Wildcard-based GitHub repository finder"
 authors = ["Jon Palmisciano <jp@jonpalmisc.com>"]
 
